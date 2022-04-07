@@ -5,6 +5,8 @@
 import math;
 import pickle;
 from matplotlib import pyplot as plt;
+import random;
+import numpy as np;
 #Fields
 V = 0.1; #M/s
 Height = 0.02; #m
@@ -25,7 +27,21 @@ x1 = [];
 x2 = [];
 x3 = [];
 xaxis = [];
+brown = np.empty(200);
+def BrownianForce(String):
+    if String == 'True':
+        #for x in range(0,200):
+            for x2 in range(0,200):
+                top = 12 * math.pi *(d1/2) * mu *k * Temp;
+                dt = 1;
+                randomint = random.randint(0,10);
+                brown[x2] = randomint*(math.sqrt(top/dt));
+                print(brown);
 
-
-
-
+            return;
+        #return;
+    return;
+string = input('Enter True to begin:');
+BrownianForce(string);
+plt.plot(brown[199]);
+plt.show();
