@@ -14,7 +14,8 @@ N = 50.0; # to 200 trajectories
 densityA = 1.225;
 gravity = 9.81;# m/s^2
 Cc = 1.2; #correction coefficient
-k = 0.000000000000000000000138;
+#k = 0.000000000000000000000138;
+k = 0.000000000000000138;
 Temp = 293.0;# Temp in Kelvin
 mu = 0.0000181;#m^2/s
 d1 = 0.00000001;
@@ -79,10 +80,10 @@ def Dissifutivity(string):
 
        plt.plot(xaxis,x1)
        plt.legend(['x1']);
-       plt.plot(xaxis,x2);
-       plt.legend(['x2']);
-       plt.plot(xaxis,x3);
-       plt.legend(['x3']);
+       #plt.plot(xaxis,x2);
+       #plt.legend(['x2']);
+       #plt.plot(xaxis,x3);
+       #plt.legend(['x3']);
        plt.autoscale();
        plt.show();
        return;
