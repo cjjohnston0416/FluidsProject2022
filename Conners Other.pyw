@@ -33,8 +33,9 @@ def BrownianForce(String):
         #for x in range(0,200):
             for x2 in range(0,200):
                 top = 12 * math.pi *(d1/2) * mu *k * Temp;
-                dt = 1;
-                randomint = random.randint(0,10);
+                dt = 0.003;
+                randomint = random.uniform(0,1)
+                ##randominteger = random.ran
                 brown[x2] = randomint*(math.sqrt(top/dt));
                 print(brown);
 
@@ -43,5 +44,5 @@ def BrownianForce(String):
     return;
 string = input('Enter True to begin:');
 BrownianForce(string);
-plt.plot(brown[199]);
+plt.plot(brown);
 plt.show();
