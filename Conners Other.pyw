@@ -31,22 +31,23 @@ x3 = [];
 xaxis = [];
 brown = np.empty(200);
 drag = np.empty(40);
+velocity = np.empty(40)
 def BrownianForce(String):
     if String == 'True':
             for x2 in range(0,200):
-                top = 12 * math.pi *(d1/2) * mu *k * Temp;
+                top = 12 * math.pi *(d3/2) * mu *k * Temp;
                 dt = 0.003;
                 randomint = random.uniform(0,1)
                 ##randominteger = random.ran
                 brown[x2] = randomint*(math.sqrt(top/dt));
             for x3 in range(0,40):
                         step= x3*(Height/40);
-                        reynolds = (densityA * V * d1)/mu;
+                        reynolds = (densityA * V * d3)/mu;
                         Cd = 24/reynolds;
                         Vm = (.1*.02)/.2;
-                        velocity = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
-                        Area = 4 * math.pi * ((d1/2)*(d1/2));
-                        multi = (0.5 * densityA * (velocity* velocity)*Area);
+                        velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
+                        Area = 4 * math.pi * ((d3/2)*(d3/2));
+                        multi = (0.5 * densityA * (velocity[x3]* velocity[x3])*Area);
                         drag[x3] = multi * Cd;
 
     print(brown);
@@ -60,6 +61,8 @@ BrownianForce(string);
 plt.figure(1);
 plt.subplot(211);
 plt.plot(brown);
-plt.subplot(212);
+plt.subplot(221);
 plt.plot(drag);
+plt.subplot(222);
+plt.plot(velocity);
 plt.show();
