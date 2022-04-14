@@ -26,7 +26,7 @@ d2 = 0.00005;
 d3 = 0.0001
 mass1 = (3*math.pi * mu * d1)/Cc;
 mass2 = 0.00000000128281700;
-mass3 = (3*math.pi * mu * d3)/Cc;
+mass3 = (2000*1.2)*((4/3)*math.pi*(d3/2)*(d3/2)*(d3/2));
 x1 = [];
 x2 = [];
 x3 = [];
@@ -35,6 +35,7 @@ brown = np.empty(200);
 drag = np.empty(200);
 velocity = np.empty(200);
 vp = np.empty(200);
+slip = np.empty(200);
 def BrownianForce(String):
     if String == 'True':
             for x2 in range(0,200):
@@ -44,20 +45,22 @@ def BrownianForce(String):
                 ##randominteger = random.ran
                 brown[x2] = randomint*(math.sqrt(top/dt));
             for x3 in range(0,200):
-                step= x3*(Height/40);
-                reynolds = (densityA * V * d3)/mu;
-                Cd = 24/reynolds;
+                Tow = (mass3* Cc)/(3 * math.pi * mu * d3);
+                ##Tow = 10;
+                step= x3*(Height/200);
                 Vm = (.1*.02)/.2;
                 velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
                 top = 3*math.pi *mu*d3;
-                exponent = math.exp(top/mass3);
+                exponent = math.exp(-step/Tow);
                 vo = 0;
-                C = (-velocity[x3])*exponent;
+                #C = (-velocity[x3])*exponent;
 
-                vp[x3] = (C/exponent)+velocity[x3];
-                #slip = 
+                vp[x3] = velocity[x3-1]*(1-exponent);
+                slip[x3] = (velocity[x3]-vp[x3]);
+                reynolds = (densityA * np.absolute(slip[x3]) * d3)/mu;
+                Cd = 24/reynolds;
                 Area = 4 * math.pi * ((d3/2)*(d3/2));
-                multi = (0.5 * densityA * (velocity[x3]* velocity[x3])*Area);
+                multi = (0.5 * densityA * (slip[x3]* slip[x3])*Area);
                 drag[x3] = multi * Cd;
 
     print(brown);
@@ -65,6 +68,10 @@ def BrownianForce(String):
     print(Cd);
     print();
     print(drag);
+    print(velocity);
+    print(vp);
+    print()
+    print(slip);
     return;
 string = input('Enter True to begin:');
 BrownianForce(string);
