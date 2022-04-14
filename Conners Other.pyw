@@ -24,14 +24,17 @@ mu = 0.0000181;#m^2/s
 d1 = 0.00000001;
 d2 = 0.00005;
 d3 = 0.0001
+mass1 = (3*math.pi * mu * d1)/Cc;
 mass2 = 0.00000000128281700;
+mass3 = (3*math.pi * mu * d3)/Cc;
 x1 = [];
 x2 = [];
 x3 = [];
 xaxis = [];
 brown = np.empty(200);
-drag = np.empty(40);
-velocity = np.empty(40)
+drag = np.empty(200);
+velocity = np.empty(200);
+vp = np.empty(200);
 def BrownianForce(String):
     if String == 'True':
             for x2 in range(0,200):
@@ -40,15 +43,22 @@ def BrownianForce(String):
                 randomint = random.uniform(0,1)
                 ##randominteger = random.ran
                 brown[x2] = randomint*(math.sqrt(top/dt));
-            for x3 in range(0,40):
-                        step= x3*(Height/40);
-                        reynolds = (densityA * V * d3)/mu;
-                        Cd = 24/reynolds;
-                        Vm = (.1*.02)/.2;
-                        velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
-                        Area = 4 * math.pi * ((d3/2)*(d3/2));
-                        multi = (0.5 * densityA * (velocity[x3]* velocity[x3])*Area);
-                        drag[x3] = multi * Cd;
+            for x3 in range(0,200):
+                step= x3*(Height/40);
+                reynolds = (densityA * V * d3)/mu;
+                Cd = 24/reynolds;
+                Vm = (.1*.02)/.2;
+                velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
+                top = 3*math.pi *mu*d3;
+                exponent = math.exp(top/mass3);
+                vo = 0;
+                C = (-velocity[x3])*exponent;
+
+                vp[x3] = (C/exponent)+velocity[x3];
+                #slip = 
+                Area = 4 * math.pi * ((d3/2)*(d3/2));
+                multi = (0.5 * densityA * (velocity[x3]* velocity[x3])*Area);
+                drag[x3] = multi * Cd;
 
     print(brown);
     print(reynolds);
@@ -59,10 +69,12 @@ def BrownianForce(String):
 string = input('Enter True to begin:');
 BrownianForce(string);
 plt.figure(1);
-plt.subplot(211);
-plt.plot(brown);
 plt.subplot(221);
-plt.plot(drag);
+plt.plot(brown);
 plt.subplot(222);
+plt.plot(drag);
+plt.subplot(223);
 plt.plot(velocity);
+plt.subplot(224);
+plt.plot(vp);
 plt.show();
