@@ -38,16 +38,16 @@ vp = np.empty(200);
 slip = np.empty(200);
 def BrownianForce(String):
     if String == 'True':
-            for x2 in range(0,200):
+            for x2 in range(1,200):
                 top = 12 * math.pi *(d3/2) * mu *k * Temp;
-                dt = 0.003;
+                dt = x2 *0.0001;
                 randomint = random.uniform(0,1)
                 ##randominteger = random.ran
                 brown[x2] = randomint*(math.sqrt(top/dt));
             for x3 in range(0,200):
                 Tow = (mass3* Cc)/(3 * math.pi * mu * d3);
                 ##Tow = 10;
-                step= x3*(Height/200);
+                step = x3 *(Height/200);
                 Vm = (.1*.02)/.2;
                 velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
                 top = 3*math.pi *mu*d3;
@@ -78,10 +78,14 @@ BrownianForce(string);
 plt.figure(1);
 plt.subplot(221);
 plt.plot(brown);
+plt.xlabel('Brownian Force')
 plt.subplot(222);
 plt.plot(drag);
+plt.xlabel('Drag Force')
 plt.subplot(223);
 plt.plot(velocity);
+plt.xlabel('Fluid Velocity')
 plt.subplot(224);
 plt.plot(vp);
+plt.xlabel('Particle Velocity')
 plt.show();
