@@ -40,6 +40,7 @@ def Dissifutivity(string):
        print(reynolds1);
        print(mass1);
        for x in range(0,30):
+           x = x * .0001;
            y = math.sqrt( 2* Diss1 * (x*2));
            x1.append(y);
        print(x1);

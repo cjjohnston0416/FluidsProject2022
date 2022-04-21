@@ -36,11 +36,14 @@ drag = np.empty(200);
 velocity = np.empty(200);
 vp = np.empty(200);
 slip = np.empty(200);
+Constant = np.empty(200);
+position = np.empty(200);
 def BrownianForce(String):
     if String == 'True':
+        for i in range(0,200):
             for x2 in range(1,200):
                 top = 12 * math.pi *(d3/2) * mu *k * Temp;
-                dt = x2 *0.0001;
+                dt = 0.0001;
                 randomint = random.uniform(0,1)
                 ##randominteger = random.ran
                 brown[x2] = randomint*(math.sqrt(top/dt));
@@ -49,12 +52,12 @@ def BrownianForce(String):
                 ##Tow = 10;
                 step = x3 *(Height/200);
                 Vm = (.1*.02)/.2;
+                #velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
                 velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
                 top = 3*math.pi *mu*d3;
                 exponent = math.exp(-step/Tow);
-                vo = 0;
+                velocity[0] = 0;
                 #C = (-velocity[x3])*exponent;
-
                 vp[x3] = velocity[x3-1]*(1-exponent);
                 slip[x3] = (velocity[x3]-vp[x3]);
                 reynolds = (densityA * np.absolute(slip[x3]) * d3)/mu;
@@ -62,6 +65,11 @@ def BrownianForce(String):
                 Area = 4 * math.pi * ((d3/2)*(d3/2));
                 multi = (0.5 * densityA * (slip[x3]* slip[x3])*Area);
                 drag[x3] = multi * Cd;
+
+                Constant[x3] = ((velocity[x3])*(step+(Tow*exponent)))+(velocity[x3]*step);
+                position[0]=0;
+                position[x3] = ((velocity[x3-1])*Tow*(1-(exponent)));
+                ##position[x3] = (position[x3-1] + vp[x3-1]*Tow*(1-exponent)+(velocity[x3]*(step - (Tow*(1-exponent)))));
 
     print(brown);
     print(reynolds);
@@ -77,15 +85,15 @@ string = input('Enter True to begin:');
 BrownianForce(string);
 plt.figure(1);
 plt.subplot(221);
-plt.plot(brown);
-plt.xlabel('Brownian Force')
+plt.plot(position);
+plt.title('Position')
 plt.subplot(222);
 plt.plot(drag);
-plt.xlabel('Drag Force')
+plt.title('Drag Force')
 plt.subplot(223);
 plt.plot(velocity);
-plt.xlabel('Fluid Velocity')
+plt.title('Fluid Velocity')
 plt.subplot(224);
 plt.plot(vp);
-plt.xlabel('Particle Velocity')
+plt.title('Particle Velocity')
 plt.show();
