@@ -21,7 +21,7 @@ Cc = 1.2; #correction coefficient
 k = 0.000000000000000138;
 Temp = 293.0;# Temp in Kelvin
 mu = 0.0000181;#m^2/s
-d3 = 0.000001;
+d3 = 0.000005;
 d2 = 0.00005;
 #d3 = 0.0001
 #mass1 = (3*math.pi * mu * d1)/Cc;
@@ -47,7 +47,7 @@ Constant2 = np.empty(200);
 position2 = np.empty(200);
 def BrownianForce(String):
     if String == 'True':
-        for i in range(0,100):
+        for i in range(0,200):
             for x2 in range(1,200):
                 top = 12 * math.pi *(d3/2) * mu *k * Temp;
                 dt = 0.0001;
@@ -74,6 +74,8 @@ def BrownianForce(String):
                 multi = (0.5 * densityA * (slip[x3]* slip[x3])*Area);
                 drag[x3] = multi * Cd;
 
+                drag[x3]= np.nan_to_num(drag[x3])
+                
                 Constant[x3] = ((velocity[x3])*(step+(Tow*exponent)))+(velocity[x3]*step);
                 position[0]=0;
                 #position[x3] = ((velocity[x3-1])*Tow*(1-(exponent)));
@@ -84,13 +86,13 @@ def BrownianForce(String):
                 step = x4 *(Height/200);
                 Vm = (.1*.02)/.2;
                 #velocity[x3] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
-                #velocity2[x4] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
-                velocity2[x4] = .1;
+                velocity2[x4] = Vm*(1-(((step)*(step))/((Height/2)*(Height/2))));
+                #velocity2[x4] = .1;
                 top = 3*math.pi *mu*d3;
                 exponent = math.exp(-step/Tow);
                 #velocity[0] = 0;
                 #C = (-velocity[x3])*exponent;
-                vp2[x4] = (velocity2[x4-1]+Tow*9.8)*(1-exponent);
+                vp2[x4] = (velocity2[x4-1]+Tow*-9.8)*(1-exponent);
                 slip2[x4] = (velocity2[x4]-vp2[x4]);
                 reynolds = (densityA * np.absolute(slip2[x4]) * d3)/mu;
                 Cd = 24/reynolds;
@@ -115,10 +117,11 @@ def BrownianForce(String):
     return;
 string = input('Enter True to begin:');
 BrownianForce(string);
+#drag= np.flip(drag)
 plt.figure(1);
 plt.subplot(221);
-plt.plot(position2,position);
-plt.title('Position')
+plt.plot(position);
+plt.title('Position X-Direction')
 plt.subplot(222);
 plt.plot(drag);
 plt.title('Drag Force')
@@ -130,5 +133,6 @@ plt.plot(vp);
 plt.title('Particle Velocity')
 plt.show();
 plt2.figure(2);
-plt2.plot(brownDrag);
+plt2.plot(position2);
+plt2.title('Position Y-Direction')
 plt2.show();
